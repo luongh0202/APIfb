@@ -96,7 +96,7 @@ app.post("/shopify-event", async (req, res) => {
   });
 
   const fbPayload = {
-    test_event_code: "TEST25219",
+    // test_event_code: "TEST25219",
     data: [
       {
         event_name: fbEventName,
