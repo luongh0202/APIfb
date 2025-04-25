@@ -65,8 +65,7 @@ app.post("/shopify-event", async (req, res) => {
       `https://graph.facebook.com/v19.0/${process.env.PIXEL_ID}/events?access_token=${process.env.ACCESS_TOKEN}`,
       {
         data: [
-          {
-            test_event_code:"TEST25219",
+          {            
             event_name: fbEventName,
             event_time: eventTime,
             event_id: eventId,
@@ -77,7 +76,8 @@ app.post("/shopify-event", async (req, res) => {
               value: value,
               currency: "USD"
             },
-            action_source: "website"
+            action_source: "website",
+            test_event_code: "TEST25219"
           }
         ]
       }
