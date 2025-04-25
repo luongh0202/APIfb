@@ -61,12 +61,11 @@ app.post("/shopify-event", async (req, res) => {
 
   // Gửi về Facebook CAPI
   try {
-    const response = await axios.post(
+    const fbResponse = await axios.post(
       `https://graph.facebook.com/v19.0/${process.env.PIXEL_ID}/events?access_token=${process.env.ACCESS_TOKEN}`,
       {
         data: [
           {
-            test_event_code: "TEST25219",
             event_name: fbEventName,
             event_time: eventTime,
             event_id: eventId,
@@ -82,10 +81,32 @@ app.post("/shopify-event", async (req, res) => {
         ]
       }
     );
-
+  
+    console.log("✅ Facebook CAPI Success:", fbResponse.data);
     return res.status(200).send("Event sent to Facebook");
+  
   } catch (err) {
-    console.error("Facebook CAPI Error:", err.message);
+    console.error("❌ Facebook CAPI Error:");
+    if (err.response) {
+      console.error("Status:", err.response.status);
+      console.error("Data:", JSON.stringify(err.response.data, null, 2));
+    } else {
+      console.error("Error:", err.message);
+    }
+    console.error("Payload sent:", JSON.stringify({
+      event_name: fbEventName,
+      event_time: eventTime,
+      event_id: eventId,
+      user_data: {
+        em: [hashSHA256(email)]
+      },
+      custom_data: {
+        value: value,
+        currency: "USD"
+      },
+      action_source: "website"
+    }, null, 2));
+  
     return res.status(500).send("Facebook CAPI error");
   }
 });
