@@ -66,6 +66,7 @@ app.post("/shopify-event", async (req, res) => {
       {
         data: [
           {
+            test_event_code: "TEST25219",
             event_name: fbEventName,
             event_time: eventTime,
             event_id: eventId,
@@ -86,38 +87,6 @@ app.post("/shopify-event", async (req, res) => {
   } catch (err) {
     console.error("Facebook CAPI Error:", err.message);
     return res.status(500).send("Facebook CAPI error");
-  }
-});
-
-// Test API riêng nếu cần (không bắt buộc)
-app.post("/purchase", async (req, res) => {
-  const { email, value, event_id } = req.body;
-
-  try {
-    const response = await axios.post(
-      `https://graph.facebook.com/v19.0/${process.env.PIXEL_ID}/events?access_token=${process.env.ACCESS_TOKEN}`,
-      {
-        data: [
-          {
-            event_name: "Purchase",
-            event_time: Math.floor(Date.now() / 1000),
-            event_id: event_id || "test_manual",
-            user_data: {
-              em: [hashSHA256(email)]
-            },
-            custom_data: {
-              value: value,
-              currency: "USD"
-            },
-            action_source: "website"
-          }
-        ]
-      }
-    );
-
-    return res.status(200).json({ success: true, response: response.data });
-  } catch (err) {
-    return res.status(500).json({ success: false, error: err.message });
   }
 });
 
