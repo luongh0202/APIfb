@@ -66,6 +66,7 @@ app.post("/shopify-event", async (req, res) => {
       {
         data: [
           {
+            test_event_code:"TEST25219",
             event_name: fbEventName,
             event_time: eventTime,
             event_id: eventId,
