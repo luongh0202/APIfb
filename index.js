@@ -64,6 +64,7 @@ app.post("/shopify-event", async (req, res) => {
     const fbResponse = await axios.post(
       `https://graph.facebook.com/v19.0/${process.env.PIXEL_ID}/events?access_token=${process.env.ACCESS_TOKEN}`,
       {
+        test_event_code: "TEST25219",
         data: [
           {            
             event_name: fbEventName,
@@ -76,10 +77,9 @@ app.post("/shopify-event", async (req, res) => {
               value: value,
               currency: "USD"
             },
-            action_source: "website",
-            test_event_code: "TEST25219"
+            action_source: "website"
           }
-        ]
+        ]        
       }
     );
   
